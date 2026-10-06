@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #f4efe6;
+  --ink: #141414;
+  --accent: #e63b1f;
+  --muted: #6b665c;
+}
+
+:root {
+  --paper: #f4efe6;
+  --ink: #141414;
+  --accent: #e63b1f;
+  --muted: #6b665c;
+
+  /* Tailwind-compatible aliases */
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/* Outlined headline text */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+  transition: color 0.4s;
+}
+.text-outline:hover {
+  color: var(--ink);
+}
+
+/* Paper grain overlay (add class "grain" + "relative" to a section) */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 30s linear infinite;
+}
+.marquee-reverse {
+  animation-direction: reverse;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+
+@keyframes ring-spin {
+  to { transform: rotate(360deg); }
+}
+.ring-spin {
+  animation: ring-spin 18s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track { animation: none; }
+  .ring-spin { animation: none; }
+}
+
