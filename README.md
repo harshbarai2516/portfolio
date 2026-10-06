@@ -1,36 +1,203 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Portfolio
 
-## Getting Started
+A modern, editorial-style developer portfolio designed to feel more like a **front-page newspaper** than a conventional developer website.
 
-First, run the development server:
+Built with **Next.js, TypeScript, Tailwind CSS, Framer Motion**, and a component-driven architecture, the portfolio focuses on strong typography, motion, responsive layouts, and storytelling through projects.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✦ Live Preview
+
+**Live:** [Add your deployed URL here]
+
+**Source:** [Add your GitHub repository URL here]
+
+---
+
+## About
+
+This portfolio is designed around an editorial / newspaper-inspired visual system.
+
+Instead of presenting projects as a simple grid of cards, the site treats them as **featured stories**, with:
+
+- Editorial typography
+- Newspaper-inspired section headers
+- Featured project "front page" stories
+- Stacked project cards
+- Animated reveals
+- Interactive hover states
+- Project archive
+- Contact section
+- Responsive layouts across desktop, tablet, and mobile
+
+The goal was to create something that feels **designed**, rather than another portfolio assembled from a template and three suspiciously identical gradient blobs.
+
+---
+
+
+## ✦ Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| **Next.js** | Application framework |
+| **React** | UI architecture |
+| **TypeScript** | Type safety |
+| **Tailwind CSS** | Styling and responsive design |
+| **Framer Motion** | Animations and interactions |
+| **ESLint** | Code quality |
+| **Vercel** | Deployment |
+
+---
+
+
+## ✦ Design System
+
+The visual system is intentionally minimal and editorial.
+
+### Typography
+
+**Display**
+
+Playfair Display
+
+Used for large editorial headlines and visual hierarchy.
+
+**Monospace**
+
+JetBrains Mono
+
+Used for metadata, labels, navigation, project information, and technical details.
+
+### Visual Language
+
+```text
+┌──────────────────────────────────────┐
+│ SECTION 04                 PROJECTS  │
+├──────────────────────────────────────┤
+│                                      │
+│ THE FRONT PAGE          03 STORIES   │
+├──────────────────────────────────────┤
+│                                      │
+│ PROJECT STORY                        │
+│                                      │
+│ Large headline                       │
+│ Supporting description               │
+│                                      │
+│ Metrics      Stack       Links       │
+│                                      │
+└──────────────────────────────────────┘
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The design uses:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Thick borders
+- Strong alignment
+- Limited color palette
+- Accent color for important actions
+- Large typography
+- Monospace metadata
+- Generous whitespace
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ✦ Animation Architecture
 
-To learn more about Next.js, take a look at the following resources:
+Animations are intentionally component-level rather than being scattered throughout the application.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Reveal
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Reusable scroll-triggered entrance animation.
 
-## Deploy on Vercel
+```tsx
+<Reveal>
+  <p>Content</p>
+</Reveal>
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### RevealText
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Letter-by-letter text entrance with hover interaction.
+
+```tsx
+<RevealText
+  text="Frontend Engineer"
+  stagger={0.045}
+/>
+```
+
+### Project Cards
+
+Featured project stories use their own motion behavior so that sticky positioning and animation remain independent.
+
+This prevents page-level animation wrappers from interfering with the project's stacking and layout behavior.
+
+---
+
+## ✦ Data-Driven Projects
+
+Project content is separated from presentation.
+
+A project follows a typed structure similar to:
+
+```ts
+type Project = {
+  slug: string;
+  title: string;
+  headline: string;
+  summary: string;
+  category: string;
+  year: number;
+  featured: boolean;
+  status: string;
+  stack: string[];
+  metrics: {
+    label: string;
+    value: string;
+  }[];
+  links: {
+    live?: string;
+    code?: string;
+  };
+};
+```
+
+This makes adding or modifying projects straightforward without rewriting UI components.
+
+---
+
+## ✦ Performance Principles
+
+The project follows a few simple principles:
+
+- Component-based architecture
+- Typed project data
+- Reusable UI primitives
+- Minimal client-side state
+- Animation only where it adds value
+- Responsive-first layout
+- Optimized image usage
+- Separation of content and presentation
+
+---
+
+
+## License
+
+This project is available for personal and educational use.
+
+If you use the design or architecture as inspiration, please build your own version rather than simply replacing the name and calling it a day. The internet already has enough cloned portfolios.
+
+---
+
+## Author
+
+**Harsh Barai**
+
+Full-Stack Developer
+
+Building scalable web applications, experimenting with AI, and occasionally convincing CSS to behave.
+
+- GitHub: [Your GitHub](https://github.com/harshbarai2516)
+- LinkedIn: [Your LinkedIn](www.linkedin.com/in/harsh-barai-86abb5185)
+- Portfolio: [Your Website](https://example.com/)
+- Email: `harshbarai52@gmail.com`
