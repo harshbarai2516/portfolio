@@ -4,16 +4,38 @@ import type { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { easeOutExpo } from "@/lib/motion";
 
-type Props = { children: ReactNode; delay?: number; className?: string };
+type Props = {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+};
 
-export default function Reveal({ children, delay = 0, className = "" }: Props) {
+export default function Reveal({
+  children,
+  delay = 0,
+  className = "",
+}: Props) {
   return (
     <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, delay, ease: easeOutExpo }}
+      className={`relative ${className}`}
+      initial={{
+        opacity: 0,
+        y: 16,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      viewport={{
+        once: true,
+        amount: 0.15,
+        margin: "0px 0px -60px 0px",
+      }}
+      transition={{
+        duration: 0.55,
+        delay,
+        ease: easeOutExpo,
+      }}
     >
       {children}
     </motion.div>
