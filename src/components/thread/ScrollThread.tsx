@@ -5,7 +5,8 @@ export default function ScrollThread({ children }: { children: ReactNode }) {
   return (
     <main className="relative">
       <ScrollThreadOverlay />
-      <div className="relative z-10">{children}</div>
+      {/* no z-index: section water (z-0) < thread (z-1) < text (z-2) < ball (z-20) */}
+      <div className="relative">{children}</div>
     </main>
   );
 }

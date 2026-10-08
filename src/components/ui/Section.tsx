@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { formatDepth, zones, type ZoneKey } from "@/lib/zones";
+import ZoneDivider from "./ZoneDivider";
 
 type Props = {
   id: string;
@@ -56,9 +57,10 @@ export default function Section({
       {/* water colour: starts exactly where the previous zone ended */}
       <div
         aria-hidden
-        className="absolute inset-0 z-0"
+        className="absolute inset-x-0 -bottom-px -top-px z-0"
         style={{ background: `linear-gradient(to bottom, ${z.top}, ${z.bottom})` }}
       />
+      <ZoneDivider depth={from} name={z.name} />
       {overlay && (
         <div
           aria-hidden

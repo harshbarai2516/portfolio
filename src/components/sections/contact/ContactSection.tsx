@@ -8,6 +8,7 @@ import MagneticLink from "@/components/ui/MagneticLink";
 import { useLocalTime } from "@/hooks/useLocalTime";
 import Chest from "./Chest";
 import ShipWreck from "./ShipWreck";
+import TreasureKey from "./TreasureKey";
 
 type Props = { profile: Profile; contact: ContactData };
 
@@ -216,16 +217,20 @@ export default function ContactSection({ profile, contact }: Props) {
           </div>
         </div>
 
-        {/* the wreck, half buried to one side */}
-        <ShipWreck
-          className="pointer-events-none absolute bottom-14 left-[-14%] z-[1] w-[min(86vw,560px)] opacity-90 sm:bottom-12 sm:left-[2%] xl:left-[6%]"
-          style={{
-            WebkitMaskImage:
-              "linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent)",
-            maskImage:
-              "linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent)",
-          }}
-        />
+        {/* the wreck, half buried to one side, with the key lying on the sand.
+            No z-index on this wrapper, so the key can sit above the chest. */}
+        <div className="pointer-events-none absolute bottom-14 left-[-14%] w-[min(86vw,560px)] sm:bottom-12 sm:left-[2%] xl:left-[6%]">
+          <ShipWreck
+            className="relative z-[1] block h-auto w-full opacity-90"
+            style={{
+              WebkitMaskImage:
+                "linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent)",
+              maskImage:
+                "linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent)",
+            }}
+          />
+          <TreasureKey className="pointer-events-auto absolute left-[66%] top-[84%] z-[4]" />
+        </div>
 
         {/* colophon */}
         <footer className="relative z-[3] mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-white/15 py-5 font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">

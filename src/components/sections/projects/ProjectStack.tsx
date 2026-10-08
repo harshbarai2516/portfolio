@@ -59,25 +59,14 @@ function StackedCard({ project, index, total, progress }: CardProps) {
   );
 }
 
-export default function ProjectStack({ projects }: { projects: Project[] }) {
-  const stacking = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+// useScroll needs its target element to exist on the very first render, so it
+// lives in its own component that is only mounted once stacking is on.
+function StackLayout({ projects }: { projects: Project[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   });
-
-  if (!stacking) {
-    return (
-      <div className="space-y-10">
-        {projects.map((p, i) => (
-          <Reveal key={p.slug}>
-            <FeaturedCard project={p} index={i} total={projects.length} />
-          </Reveal>
-        ))}
-      </div>
-    );
-  }
 
   return (
     <div ref={ref} style={{ height: `${projects.length * 100}svh` }}>
@@ -92,4 +81,22 @@ export default function ProjectStack({ projects }: { projects: Project[] }) {
       ))}
     </div>
   );
+}
+
+export default function ProjectStack({ projects }: { projects: Project[] }) {
+  const stacking = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
+  if (!stacking) {
+    return (
+      <div className="space-y-10">
+        {projects.map((p, i) => (
+          <Reveal key={p.slug}>
+            <FeaturedCard project={p} index={i} total={projects.length} />
+          </Reveal>
+        ))}
+      </div>
+    );
+  }
+
+  return <StackLayout projects={projects} />;
 }

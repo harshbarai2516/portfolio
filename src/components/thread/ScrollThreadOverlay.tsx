@@ -158,7 +158,10 @@ export default function ScrollThreadOverlay() {
 
     g.nodeLens.forEach((len, i) => {
       const el = nodeRefs.current[i];
-      if (el) el.style.fill = p.l >= len ? "var(--accent)" : "var(--paper)";
+      if (el) {
+        el.style.fill = p.l >= len ? "var(--glow)" : "#0a3a5a";
+        el.style.stroke = p.l >= len ? "var(--glow)" : "rgba(255,255,255,0.7)";
+      }
     });
   }, []);
 
@@ -200,7 +203,7 @@ export default function ScrollThreadOverlay() {
       {layout && (
         <svg
           aria-hidden
-          className="pointer-events-none absolute left-0 top-0 z-0"
+          className="pointer-events-none absolute left-0 top-0 z-[1]"
           width={layout.w}
           height={layout.h}
           viewBox={`0 0 ${layout.w} ${layout.h}`}
@@ -210,8 +213,8 @@ export default function ScrollThreadOverlay() {
           <path
             ref={baseRef}
             d={layout.d}
-            stroke="var(--ink)"
-            strokeOpacity={0.28}
+            stroke="#bff3fb"
+            strokeOpacity={0.45}
             strokeWidth={1.5}
             strokeDasharray="2 9"
             strokeLinecap="round"
@@ -220,10 +223,14 @@ export default function ScrollThreadOverlay() {
           <path
             ref={progRef}
             d={layout.d}
-            stroke="var(--accent)"
+            stroke="var(--glow)"
             strokeWidth={2.5}
             strokeLinecap="round"
-            style={{ strokeDasharray: 100000, strokeDashoffset: 100000 }}
+            style={{
+              strokeDasharray: 100000,
+              strokeDashoffset: 100000,
+              filter: "drop-shadow(0 0 5px rgba(95,242,224,0.8))",
+            }}
           />
           {layout.nodes.map((n, i) => (
             <circle
@@ -234,9 +241,12 @@ export default function ScrollThreadOverlay() {
               cx={n.x}
               cy={n.y}
               r={6}
-              stroke="var(--ink)"
               strokeWidth={2}
-              style={{ fill: "var(--paper)", transition: "fill 0.3s" }}
+              style={{
+                fill: "#0a3a5a",
+                stroke: "rgba(255,255,255,0.7)",
+                transition: "fill 0.3s, stroke 0.3s",
+              }}
             />
           ))}
         </svg>

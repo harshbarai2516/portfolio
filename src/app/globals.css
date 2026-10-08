@@ -47,7 +47,7 @@ html {
 }
 
 body {
-  background: var(--paper);
+  background: transparent; /* html paints the deep colour: no pale seams between zones */
   color: var(--ink);
   font-family: var(--font-serif);
 }
@@ -284,4 +284,24 @@ body {
   }
   .chest-lid,
   .chest-glow { transition: none; }
+}
+
+/* ---- the key: glows on the seabed, opens the chest, takes you back up ---- */
+@keyframes key-pulse {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 214, 94, 0.45)); }
+  50% { filter: drop-shadow(0 0 14px rgba(255, 214, 94, 0.95)); }
+}
+@keyframes key-bob {
+  0%, 100% { transform: translateY(0) rotate(-28deg); }
+  50% { transform: translateY(-5px) rotate(-22deg); }
+}
+.key-glow { animation: key-pulse 2.4s ease-in-out infinite; }
+.key-bob { animation: key-bob 3.6s ease-in-out infinite; }
+
+/* the chest also opens when the key is used */
+[data-unlocked="true"] .chest-lid { transform: translateY(-16px) rotate(-14deg); }
+[data-unlocked="true"] .chest-glow { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .key-glow, .key-bob { animation: none; }
 }
