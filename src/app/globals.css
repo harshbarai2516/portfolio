@@ -1,40 +1,65 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------ *
+ *  THE DIVE: colour tokens
+ *  paper / ink / accent / muted keep their old names, so every older
+ *  component still works. They describe the SURFACE (light) zone.
+ *  Deeper zones override them with the .theme-deep class below.
+ * ------------------------------------------------------------------ */
 :root {
-  --paper: #f4efe6;
-  --ink: #141414;
-  --accent: #e63b1f;
-  --muted: #6b665c;
+  --paper: #f1fbfd; /* sea foam */
+  --ink: #04263d; /* deep navy */
+  --accent: #e8431f; /* coral */
+  --muted: #3f6178;
+
+  --glow: #5ff2e0; /* bioluminescent aqua */
+  --coral: #ff7a59; /* coral on dark water */
+  --brass: #d6a24e;
+  --abyss: #020a16;
 }
 
-:root {
-  --paper: #f4efe6;
-  --ink: #141414;
-  --accent: #e63b1f;
-  --muted: #6b665c;
-
-  /* Tailwind-compatible aliases */
+@theme inline {
   --color-paper: var(--paper);
   --color-ink: var(--ink);
   --color-accent: var(--accent);
   --color-muted: var(--muted);
-  --font-serif: var(--font-serif);
-  --font-mono: var(--font-mono);
+  --color-glow: var(--glow);
+  --color-coral: var(--coral);
+  --color-brass: var(--brass);
+  --color-abyss: var(--abyss);
+
+  /* next/font injects --font-playfair and --font-jetbrains (see layout.tsx) */
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+/* Re-skins everything inside for dark water (used by project previews) */
+.theme-deep {
+  --paper: #0a2a4a;
+  --ink: #8fe6f2;
+  --accent: #ff7a59;
+  --muted: #8db7cc;
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--abyss);
 }
 
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-serif);
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--paper);
+  background: var(--coral);
+  color: #04263d;
+}
+
+:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 3px;
 }
 
 /* Outlined headline text */
@@ -47,7 +72,7 @@ body {
   color: var(--ink);
 }
 
-/* Paper grain overlay (add class "grain" + "relative" to a section) */
+/* Soft paper grain, kept for any section that still wants it */
 .grain::after {
   content: "";
   position: absolute;
@@ -57,32 +82,206 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Marquee */
+/* ------------------------------------------------------------------ *
+ *  Keyframes
+ * ------------------------------------------------------------------ */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
-.marquee-track {
-  animation: marquee 30s linear infinite;
-}
-.marquee-reverse {
-  animation-direction: reverse;
-}
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-
+.marquee-track { animation: marquee 30s linear infinite; }
+.marquee-reverse { animation-direction: reverse; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
 
 @keyframes ring-spin {
   to { transform: rotate(360deg); }
 }
-.ring-spin {
-  animation: ring-spin 18s linear infinite;
+.ring-spin { animation: ring-spin 18s linear infinite; }
+
+/* waves: the svg is 200% wide and holds two identical periods */
+@keyframes wave-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
 }
+.wave { animation: wave-drift 18s linear infinite; will-change: transform; }
+.wave-2 { animation-duration: 26s; animation-direction: reverse; }
+.wave-3 { animation-duration: 34s; }
+
+@keyframes rays-sway {
+  0%, 100% { transform: translateX(-3%) skewX(-4deg); }
+  50% { transform: translateX(3%) skewX(4deg); }
+}
+.rays { animation: rays-sway 16s ease-in-out infinite; }
+
+/* ambient particles */
+@keyframes bubble-rise {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  10% { opacity: 1; }
+  50% { transform: translate3d(14px, -55vh, 0); }
+  90% { opacity: 0.9; }
+  100% { transform: translate3d(-6px, -115vh, 0); opacity: 0; }
+}
+.bubble {
+  position: absolute;
+  bottom: -6vh;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.05) 55%);
+  animation: bubble-rise linear infinite;
+}
+
+@keyframes plankton-drift {
+  0% { transform: translate3d(0, -4vh, 0); }
+  100% { transform: translate3d(-30px, 108vh, 0); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.95; }
+}
+.plankton {
+  position: absolute;
+  top: -4vh;
+  border-radius: 9999px;
+  background: var(--glow);
+  box-shadow: 0 0 10px 2px rgba(95, 242, 224, 0.55);
+  animation: plankton-drift linear infinite, twinkle ease-in-out infinite;
+}
+
+/* diver */
+@keyframes diver-bubble {
+  0% { transform: translate3d(0, 0, 0) scale(0.5); opacity: 0; }
+  20% { opacity: 0.95; }
+  100% { transform: translate3d(6px, -70px, 0) scale(1.1); opacity: 0; }
+}
+.diver-bubble {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.25);
+  animation: diver-bubble 2.6s ease-in infinite;
+}
+
+/* creatures */
+@keyframes bob {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -10px, 0); }
+}
+@keyframes sway {
+  0%, 100% { transform: skewX(-5deg); }
+  50% { transform: skewX(5deg); }
+}
+@keyframes dome-pulse {
+  0%, 100% { transform: scale(1, 1); }
+  45% { transform: scale(1.06, 0.9); }
+}
+@keyframes lure-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+@keyframes tail-flick {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(7deg); }
+}
+.creature { --speed: 1; }
+.creature.is-excited { --speed: 0.45; }
+.c-bob { animation: bob calc(5s * var(--speed)) ease-in-out infinite; }
+.c-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: sway calc(3.4s * var(--speed)) ease-in-out infinite;
+}
+.c-sway-b { animation-delay: -1.2s; }
+.c-sway-c { animation-delay: -2.3s; }
+.c-dome {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: dome-pulse calc(3.2s * var(--speed)) ease-in-out infinite;
+}
+.c-lure {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: lure-pulse calc(2.4s * var(--speed)) ease-in-out infinite;
+}
+.c-tail {
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+  animation: tail-flick calc(1.6s * var(--speed)) ease-in-out infinite;
+}
+.c-tail-r {
+  transform-box: fill-box;
+  transform-origin: 100% 50%;
+  animation: tail-flick calc(1.6s * var(--speed)) ease-in-out infinite;
+}
+
+/* tool orbs bobbing in the water */
+@keyframes orb-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -5px, 0); }
+}
+.orb { animation: orb-float 4.6s ease-in-out infinite; }
+
+/* sonar ping ring */
+@keyframes sonar {
+  0% { transform: scale(0.4); opacity: 0.7; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.sonar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1.5px solid var(--glow);
+  animation: sonar 3.2s ease-out infinite;
+}
+@keyframes radar-sweep {
+  to { transform: rotate(360deg); }
+}
+.radar-sweep { animation: radar-sweep 5s linear infinite; }
+
+/* seabed plants */
+@keyframes kelp {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(4deg); }
+}
+.kelp {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: kelp 6s ease-in-out infinite;
+}
+
+/* treasure chest: opens when the diver arrives (ScrollThread sets data-arrived) */
+.chest-lid {
+  transform-box: fill-box;
+  transform-origin: 0% 100%;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.chest-glow {
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+[data-arrived="true"] .chest-lid { transform: translateY(-16px) rotate(-14deg); }
+[data-arrived="true"] .chest-glow { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .marquee-track { animation: none; }
-  .ring-spin { animation: none; }
+  .marquee-track,
+  .ring-spin,
+  .wave,
+  .rays,
+  .bubble,
+  .plankton,
+  .diver-bubble,
+  .c-bob,
+  .c-sway,
+  .c-dome,
+  .c-lure,
+  .c-tail,
+  .c-tail-r,
+  .orb,
+  .sonar-ring,
+  .radar-sweep,
+  .kelp {
+    animation: none;
+  }
+  .chest-lid,
+  .chest-glow { transition: none; }
 }
-

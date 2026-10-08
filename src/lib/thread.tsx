@@ -12,17 +12,22 @@ type BuildInput = {
   start: { x: number; y: number };
   stops: StopRect[];
   wide: boolean;
+  /** Where the line finally lands (the treasure chest). */
+  end?: { x: number; y: number };
 };
+
+// vertical room reserved for the final S-curve onto the chest
+const SWOOP = 200;
 
 export const clamp = (v: number, min: number, max: number) =>
   Math.min(max, Math.max(min, v));
 
-// Builds the SVG path the ball follows: hero -> section 1 -> section 2 ...
-export function buildThread({ width, start, stops, wide }: BuildInput) {
+// Builds the SVG path the diver follows: hero -> section 1 -> section 2 ... -> chest
+export function buildThread({ width, start, stops, wide, end }: BuildInput) {
   const contentLeft = (width - Math.min(width, 1152)) / 2 + 24;
   const leftX = Math.max(30, contentLeft - 52);
   const rightX = width - leftX;
-  const railX = 12;
+  const railX = 17;
 
   let d = `M ${start.x} ${start.y}`;
   let px = start.x;
@@ -32,7 +37,12 @@ export function buildThread({ width, start, stops, wide }: BuildInput) {
   stops.forEach((s, k) => {
     const x = wide ? (k % 2 === 0 ? leftX : rightX) : railX;
     const enterY = s.top + s.padTop * 0.6;
-    const leaveY = s.bottom - s.padBottom * 0.6;
+    let leaveY = s.bottom - s.padBottom * 0.6;
+    // On the last stop the line must leave early enough to swoop onto the
+    // chest. Otherwise it would run to the very bottom and never arrive.
+    if (end && k === stops.length - 1) {
+      leaveY = Math.max(enterY + 120, Math.min(leaveY, end.y - SWOOP));
+    }
     const dy = Math.max(enterY - py, 1);
 
     if (x !== px) {
@@ -48,7 +58,16 @@ export function buildThread({ width, start, stops, wide }: BuildInput) {
     nodes.push({ x, y: s.top + s.padTop + 14 });
   });
 
-  return { d, nodes };
+  // Final swoop from the last rail to the middle of the seabed, onto the chest.
+  let endPoint = { x: px, y: py };
+  if (end) {
+    const ey = Math.max(end.y, py + 80);
+    const dy = ey - py;
+    d += ` C ${px} ${py + dy * 0.5} ${end.x} ${ey - dy * 0.5} ${end.x} ${ey}`;
+    endPoint = { x: end.x, y: ey };
+  }
+
+  return { d, nodes, end: endPoint };
 }
 
 // Turns the path into a lookup table so scrolling stays cheap.

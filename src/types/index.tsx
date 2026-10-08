@@ -24,7 +24,15 @@ export type About = {
 
 export type Tool = { name: string; note: string };
 
-export type ToolGroup = { title: string; blurb: string; tools: Tool[] };
+export type CreatureKind = "lanternfish" | "anglerfish" | "jellyfish" | "octopus";
+
+export type ToolGroup = {
+  title: string;
+  blurb: string;
+  tools: Tool[];
+  creature?: CreatureKind; // which sea creature lives in this group's habitat
+  depth?: number; // metres, shown on the habitat label
+};
 
 export type Toolbox = {
   headline: string;

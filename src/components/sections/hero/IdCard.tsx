@@ -91,8 +91,8 @@ export default function IdCard({ profile }: Props) {
                 className="col-start-1 row-start-1 flex h-[31rem] flex-col overflow-hidden rounded-2xl border-2 border-ink bg-ink text-paper shadow-[10px_10px_0_0_var(--accent)]"
               >
                 <div className="flex items-center justify-between bg-accent px-5 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.2em]">
-                  <span>Press Pass</span>
-                  <span>No. 001</span>
+                  <span>Dive Pass</span>
+                  <span>Cert. 001</span>
                 </div>
 
                 <div className="flex flex-1 flex-col px-6 pb-5 pt-4">

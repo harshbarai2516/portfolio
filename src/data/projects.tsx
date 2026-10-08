@@ -5,7 +5,7 @@ import type { ProjectsData } from "../types";
 // big stacked story cards (keep it to 4-5); the rest go to the Archive.
 // Empty/missing links are hidden automatically.
 export const projects: ProjectsData = {
-  lead: "Five stories worth the front page, and the rest of the press room below.",
+  lead: "Five dive sites worth charting, and the rest of the archive on the seabed below.",
   projects: [
     {
       slug: "lumen",

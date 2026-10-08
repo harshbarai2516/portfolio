@@ -8,6 +8,7 @@ import RevealText from "@/components/ui/RevealText";
 import RotatingWord from "@/components/ui/RotatingWord";
 import MagneticLink from "@/components/ui/MagneticLink";
 import IdCard from "./IdCard";
+import HeroBackdrop from "./HeroBackdrop";
 
 type Props = { profile: Profile; issue: IssueMeta };
 
@@ -23,10 +24,10 @@ export default function Hero({ profile, issue }: Props) {
     }
   >;
 
-  // cursor spotlight (the rgba below is the accent colour)
+  // cursor glint, like sunlight catching the water
   const gx = useMotionValue(600);
   const gy = useMotionValue(300);
-  const spotlight = useMotionTemplate`radial-gradient(520px circle at ${gx}px ${gy}px, rgba(230,59,31,0.14), transparent 65%)`;
+  const spotlight = useMotionTemplate`radial-gradient(520px circle at ${gx}px ${gy}px, rgba(255,255,255,0.6), transparent 65%)`;
 
   function onMove(e: React.MouseEvent<HTMLElement>) {
     const r = e.currentTarget.getBoundingClientRect();
@@ -39,8 +40,9 @@ export default function Hero({ profile, issue }: Props) {
       id="top"
       data-thread-start
       onMouseMove={onMove}
-      className="grain relative isolate overflow-hidden"
+      className="relative isolate overflow-hidden"
     >
+      <HeroBackdrop />
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
@@ -66,7 +68,7 @@ export default function Hero({ profile, issue }: Props) {
               {profile.availability.label}
             </span>
             <span className="text-muted">
-              Vol. {issue.vol} · No. {issue.no} · {issue.date}
+              Dive log {issue.vol}.{issue.no} · {issue.date}
             </span>
             <span className="text-muted">Local {time}</span>
           </motion.div>

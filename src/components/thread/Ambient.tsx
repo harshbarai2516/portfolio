@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, JetBrains_Mono } from "next/font/google";
-import Navbar from "../components/layout/Navbar";
+import Navbar from "../../components/layout/Navbar";
 import CursorBubbles from "@/components/thread/CursorBubbles";
 import { getNav, getProfile } from "@/lib/data";
 import "./globals.css";

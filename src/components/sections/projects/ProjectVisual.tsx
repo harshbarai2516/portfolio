@@ -113,12 +113,12 @@ function Drawing({ kind }: { kind: VisualKind }) {
 
 export default function ProjectVisual({ kind, slug, image, title }: Props) {
   return (
-    <div className="w-full border-2 border-ink bg-paper shadow-[6px_6px_0_0_var(--ink)]">
-      <div className="flex items-center gap-2 border-b-2 border-ink bg-paper px-3 py-2">
-        <span className="h-2.5 w-2.5 rounded-full border-2 border-ink bg-accent" />
-        <span className="h-2.5 w-2.5 rounded-full border-2 border-ink" />
-        <span className="h-2.5 w-2.5 rounded-full border-2 border-ink" />
-        <span className="ml-3 flex-1 truncate border-2 border-ink px-3 py-0.5 font-mono text-[10px] uppercase tracking-widest text-muted">
+    <div className="w-full overflow-hidden rounded-xl border border-ink/50 bg-paper shadow-[0_0_46px_-14px_var(--ink)]">
+      <div className="flex items-center gap-2 border-b border-ink/40 bg-paper px-3 py-2">
+        <span className="h-2.5 w-2.5 rounded-full border border-ink/60 bg-accent" />
+        <span className="h-2.5 w-2.5 rounded-full border border-ink/60" />
+        <span className="h-2.5 w-2.5 rounded-full border border-ink/60" />
+        <span className="ml-3 flex-1 truncate rounded-full border border-ink/40 px-3 py-0.5 font-mono text-[10px] uppercase tracking-widest text-muted">
           {slug}.app
         </span>
       </div>

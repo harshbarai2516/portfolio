@@ -2,10 +2,12 @@ import type { Toolbox } from "../types";
 
 // Placeholder content: edit names and notes to match what you actually use.
 export const toolbox: Toolbox = {
-  headline: "The tools I reach for, and why I trust them.",
+  headline: "The gear I carry down, and why I trust it.",
   groups: [
     {
       title: "Frontend",
+      creature: "lanternfish",
+      depth: 240,
       blurb: "Interfaces that feel fast and look intentional.",
       tools: [
         { name: "Next.js", note: "App Router, server components, routing" },
@@ -17,6 +19,8 @@ export const toolbox: Toolbox = {
     },
     {
       title: "Backend",
+      creature: "anglerfish",
+      depth: 480,
       blurb: "Simple, reliable logic behind the screen.",
       tools: [
         { name: "Node.js", note: "APIs and server-side logic" },
@@ -27,6 +31,8 @@ export const toolbox: Toolbox = {
     },
     {
       title: "AI",
+      creature: "jellyfish",
+      depth: 680,
       blurb: "Using models as a product feature, not a gimmick.",
       tools: [
         { name: "LLM APIs", note: "Chat, tool use and structured output" },
@@ -36,6 +42,8 @@ export const toolbox: Toolbox = {
     },
     {
       title: "Workflow",
+      creature: "octopus",
+      depth: 880,
       blurb: "How the work gets shipped.",
       tools: [
         { name: "Git & GitHub", note: "Small commits, clear history" },
